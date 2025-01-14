@@ -9,4 +9,4 @@ class Ec2VolumeTagger(AwsResourceTagger):
         try:
             ec2.create_tags(Resources=[self.resource_id], Tags=self.tags)
         except Exception as e:
-            print(f"Error tagging Route Table {self.resource_id}: {e}")
+            print(f"Error tagging EC2 Volume {self.resource_id}: {e}")

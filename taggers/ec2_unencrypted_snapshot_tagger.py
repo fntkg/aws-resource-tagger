@@ -1,7 +1,7 @@
 import boto3
 from .base_tagger import AwsResourceTagger
 
-# Concrete class for tagging Route Tables
+# Concrete class for tagging Ec2 Unencrypted Snapshots
 class Ec2UnencryptedSnapshotTagger(AwsResourceTagger):
     def add_tags(self):
         print(f"Tagging Ec2 Unencrypted Snapshot: {self.resource_id} in region {self.region}")

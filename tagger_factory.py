@@ -12,11 +12,12 @@ from taggers.cloudfront_distribution_tagger import CloudFrontDistributionTagger
 from taggers.route53_domain_tagger import Route53DomainTagger
 from taggers.route53_zone_tagger import Route53HostedZoneTagger
 from taggers.api_gateway_v2_tagger import ApiGatewayV2Tagger
+from taggers.athena_workgroup_tagger import AthenaWorkgroupTagger
 
 # Factory class to create taggers based on resource type
 class AwsResourceTaggerFactory:
     @staticmethod
-    def get_tagger(resource_type, resource_id, tags, region):
+    def get_tagger(resource_type, resource_id, tags, region, account_id):
         if resource_type == "securityGroup":
             return SecurityGroupTagger(resource_id, tags, region)
         elif resource_type == "subnet":
@@ -38,12 +39,14 @@ class AwsResourceTaggerFactory:
         elif resource_type == "vpc":
             return VPCTagger(resource_id, tags, region)
         elif resource_type == "cloudfront":
-            return CloudFrontDistributionTagger(resource_id, tags, region)
+            return CloudFrontDistributionTagger(resource_id, tags, region, account_id)
         elif resource_type == "domain":
             return Route53DomainTagger(resource_id, tags, region)
         elif resource_type == "dnsZone": \
             return Route53HostedZoneTagger(resource_id, tags, region)
         elif resource_type == "apiGatewayv2":
             return ApiGatewayV2Tagger(resource_id, tags, region)
+        elif resource_type == "athena#workgroup":
+            return AthenaWorkgroupTagger(resource_id, tags, region, account_id)
         else:
             raise ValueError(f"Unsupported resource type: {resource_type}")

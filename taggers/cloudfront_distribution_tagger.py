@@ -8,6 +8,6 @@ class CloudFrontDistributionTagger(AwsResourceTagger):
         self.tags = {"Items": self.tags}
         cloudfront = boto3.client('cloudfront', region_name=self.region)
         try:
-            cloudfront.tag_resource(Resource=f'arn:aws:cloudfront::259693301705:distribution/${self.resource_id}', Tags=self.tags)
+            cloudfront.tag_resource(Resource=f'arn:aws:cloudfront::{self.account_id}:distribution/${self.resource_id}', Tags=self.tags)
         except Exception as e:
             print(f"Error tagging CloudFront Distribution {self.resource_id}: {e}")

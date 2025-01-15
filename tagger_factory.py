@@ -42,7 +42,7 @@ class AwsResourceTaggerFactory:
             return CloudFrontDistributionTagger(resource_id, tags, region, account_id)
         elif resource_type == "domain":
             return Route53DomainTagger(resource_id, tags, region)
-        elif resource_type == "dnsZone": \
+        elif resource_type == "dnsZone":
             return Route53HostedZoneTagger(resource_id, tags, region)
         elif resource_type == "apiGatewayv2":
             return ApiGatewayV2Tagger(resource_id, tags, region)

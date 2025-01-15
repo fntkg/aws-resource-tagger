@@ -22,7 +22,7 @@ class AwsResourceTaggerFactory:
             return SecurityGroupTagger(resource_id, tags, region)
         elif resource_type == "subnet":
             return SubnetTagger(resource_id, tags, region)
-        elif resource_type == "routeTable":
+        elif resource_type == "routetable":
             return RouteTableTagger(resource_id, tags, region)
         elif resource_type == "sqs":
             return SimpleQueueServiceTagger(resource_id, tags, region)

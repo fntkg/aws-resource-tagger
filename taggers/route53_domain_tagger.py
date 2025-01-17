@@ -7,6 +7,6 @@ class Route53DomainTagger(AwsResourceTagger):
         print(f"Tagging Route53 domain: {self.resource_id} in region {self.region}")
         route53domains = boto3.client('route53domains', region_name=self.region)
         try:
-            route53domains.update_tags_for_domain(DomainName=[self.resource_id], TagsToUpdate=self.tags)
+            route53domains.update_tags_for_domain(DomainName=self.resource_id, TagsToUpdate=self.tags)
         except Exception as e:
             print(f"Error tagging Route53 domain {self.resource_id}: {e}")

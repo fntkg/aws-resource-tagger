@@ -14,6 +14,7 @@ from taggers.route53_zone_tagger import Route53HostedZoneTagger
 from taggers.api_gateway_v2_tagger import ApiGatewayV2Tagger
 from taggers.athena_workgroup_tagger import AthenaWorkgroupTagger
 from taggers.autoscaling_groups_tagger import AutoscalingGroupsTagger
+from taggers.rds_snapshot_tagger import RdsSnapshotTagger
 
 # Factory class to create taggers based on resource type
 class AwsResourceTaggerFactory:
@@ -51,5 +52,7 @@ class AwsResourceTaggerFactory:
             return AthenaWorkgroupTagger(resource_id, tags, region, account_id)
         elif resource_type == "autoScalingGroup":
             return AutoscalingGroupsTagger(resource_id, tags, region, account_id)
+        elif resource_type == "rds#snapshot" or resource_type == "rds/PostgreSQL/instance":
+            return RdsSnapshotTagger(resource_id, tags, region)
         else:
             raise ValueError(f"Unsupported resource type: {resource_type}")

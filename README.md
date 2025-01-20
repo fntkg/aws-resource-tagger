@@ -47,12 +47,20 @@ To add support for tagging a new AWS resource type, follow these steps:
    ```
 
 2. **Register the New Tagger in the Factory**
+   - Open `taggers/__init__.py`.
+   - Import the new tagger class.
+   
+    Example:
+    ```python
+   from .new_resource_tagger import NewResourceTagger
+    ```
+
    - Open `tagger_factory.py`.
    - Add a condition to handle the new resource type.
 
    Example:
    ```python
-   from taggers.new_resource_tagger import NewResourceTagger
+   from taggers import (NewResourceTagger)
 
    class AwsResourceTaggerFactory:
        @staticmethod

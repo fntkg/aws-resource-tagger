@@ -1,20 +1,10 @@
-from taggers.security_group_tagger import SecurityGroupTagger
-from taggers.subnet_tagger import SubnetTagger
-from taggers.route_table_tagger import RouteTableTagger
-from taggers.sns_tagger import SimpleNotificationServiceTagger
-from taggers.sqs_tagger import SimpleQueueServiceTagger
-from taggers.ec2_volume_tagger import Ec2VolumeTagger
-from taggers.ec2_unencrypted_snapshot_tagger import Ec2UnencryptedSnapshotTagger
-from taggers.internet_gateway_tagger import InternetGatewayTagger
-from taggers.network_acl_tagger import NetworkAclTagger
-from taggers.vpc_tagger import VPCTagger
-from taggers.cloudfront_distribution_tagger import CloudFrontDistributionTagger
-from taggers.route53_domain_tagger import Route53DomainTagger
-from taggers.route53_zone_tagger import Route53HostedZoneTagger
-from taggers.api_gateway_v2_tagger import ApiGatewayV2Tagger
-from taggers.athena_workgroup_tagger import AthenaWorkgroupTagger
-from taggers.autoscaling_groups_tagger import AutoscalingGroupsTagger
-from taggers.rds_snapshot_tagger import RdsSnapshotTagger
+from taggers import (
+    SecurityGroupTagger, SubnetTagger, RouteTableTagger, SimpleNotificationServiceTagger,
+    SimpleQueueServiceTagger, Ec2VolumeTagger, Ec2UnencryptedSnapshotTagger, InternetGatewayTagger,
+    NetworkAclTagger, VPCTagger, CloudFrontDistributionTagger, Route53DomainTagger,
+    Route53HostedZoneTagger, ApiGatewayV2Tagger, AthenaWorkgroupTagger, AutoscalingGroupsTagger,
+    RdsSnapshotTagger, S3BucketTagger
+)
 
 # Factory class to create taggers based on resource type
 class AwsResourceTaggerFactory:
@@ -54,5 +44,7 @@ class AwsResourceTaggerFactory:
             return AutoscalingGroupsTagger(resource_id, tags, region, account_id)
         elif resource_type == "rds#snapshot" or resource_type == "rds/PostgreSQL/instance":
             return RdsSnapshotTagger(resource_id, tags, region)
+        elif resource_type == "bucket":
+            return S3BucketTagger(resource_id, tags)
         else:
             raise ValueError(f"Unsupported resource type: {resource_type}")

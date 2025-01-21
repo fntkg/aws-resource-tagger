@@ -3,13 +3,42 @@ from taggers import (
     SimpleQueueServiceTagger, Ec2VolumeTagger, Ec2UnencryptedSnapshotTagger, InternetGatewayTagger,
     NetworkAclTagger, VPCTagger, CloudFrontDistributionTagger, Route53DomainTagger,
     Route53HostedZoneTagger, ApiGatewayV2Tagger, AthenaWorkgroupTagger, AutoscalingGroupsTagger,
-    RdsSnapshotTagger, S3BucketTagger
+    RdsSnapshotTagger, S3BucketTagger, Ec2InstanceTagger
 )
 
-# Factory class to create taggers based on resource type
+
 class AwsResourceTaggerFactory:
+    """
+    Factory class to create appropriate AWS resource taggers based on the provided resource type.
+
+    Methods:
+        get_tagger(resource_type, resource_id, tags, region, account_id):
+            Returns an instance of the appropriate tagger class based on the resource type.
+    """
+
     @staticmethod
     def get_tagger(resource_type, resource_id, tags, region, account_id):
+        """
+        Retrieves the appropriate AWS resource tagger instance.
+
+        Args:
+            resource_type (str): The type of AWS resource to be tagged.
+            resource_id (str): The unique identifier of the AWS resource.
+            tags (list): A list of key-value pairs representing the tags to be applied.
+            region (str): The AWS region where the resource is located.
+            account_id (str): The AWS account ID associated with the resource.
+
+        Returns:
+            object: An instance of the corresponding resource tagger class.
+
+        Raises:
+            ValueError: If the provided resource type is not supported.
+
+        The expected format for the `tags` parameter is:
+        tags = [
+            {"Key": "<tagkey>", "Value": "<tagvalue>"}
+        ]
+        """
         if resource_type == "securityGroup":
             return SecurityGroupTagger(resource_id, tags, region)
         elif resource_type == "subnet":
@@ -46,5 +75,7 @@ class AwsResourceTaggerFactory:
             return RdsSnapshotTagger(resource_id, tags, region)
         elif resource_type == "bucket":
             return S3BucketTagger(resource_id, tags)
+        elif resource_type == "virtualMachine":
+            return Ec2InstanceTagger(resource_id, tags, region)
         else:
             raise ValueError(f"Unsupported resource type: {resource_type}")

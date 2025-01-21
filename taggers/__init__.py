@@ -16,3 +16,4 @@ from .athena_workgroup_tagger import AthenaWorkgroupTagger
 from .autoscaling_groups_tagger import AutoscalingGroupsTagger
 from .rds_snapshot_tagger import RdsSnapshotTagger
 from .s3_bucket_tagger import S3BucketTagger
+from .ec2_instance_tagger import Ec2InstanceTagger

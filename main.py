@@ -38,7 +38,7 @@ def process_csv(file_path):
             tags = [
                 {"Key": "DataClassification", "Value": "Confidential"}
             ]
-            # {"Key": "AdminEmail", "Value": ""} 
+            # {"Key": "AdminEmail", "Value": ""}
 
             try:
                 # Obtain a tagger instance from the factory and apply tags

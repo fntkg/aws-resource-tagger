@@ -13,7 +13,7 @@ class AwsResourceTagger(ABC):
         account_id (str, optional): The AWS account ID that owns the resource. Defaults to None.
     """
 
-    def __init__(self, resource_id, tags, region=None, account_id=None):
+    def __init__(self, resource_id, tags, region=None, account_id=None, full_resource_id=None):
         """
         Initializes the AwsResourceTagger instance with resource details and tags.
 
@@ -27,6 +27,7 @@ class AwsResourceTagger(ABC):
         self.tags = tags
         self.region = region
         self.account_id = account_id
+        self.full_resource_id = full_resource_id
 
     @abstractmethod
     def add_tags(self):

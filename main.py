@@ -36,13 +36,23 @@ def process_csv(file_path):
 
             # Predefined tags to be applied to resources
             tags = [
-                {"Key": "DataClassification", "Value": "Confidential"}
             ]
-            # {"Key": "AdminEmail", "Value": ""}
+
+            # List of dicts for all resources, but Cloudwatch log groups
+            # [
+            #   {"Key": "AdminEmail", "Value": ""},
+            #   ...
+            # ]
+            #
+            # For Cloudwatch log groups, the tags must be a dict not a list of dicts
+            # {
+            #  "AdminEmail": "",
+            #  ...
+            # }
 
             try:
                 # Obtain a tagger instance from the factory and apply tags
-                tagger = AwsResourceTaggerFactory.get_tagger(resource_type, resource_id, tags, region, account_id)
+                tagger = AwsResourceTaggerFactory.get_tagger(resource_type, resource_id, tags, region, account_id, full_resource_id)
                 tagger.add_tags()
             except Exception as e:
                 print(f"Error processing resource {resource_id}: {e}")

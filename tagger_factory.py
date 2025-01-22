@@ -3,7 +3,7 @@ from taggers import (
     SimpleQueueServiceTagger, Ec2VolumeTagger, Ec2UnencryptedSnapshotTagger, InternetGatewayTagger,
     NetworkAclTagger, VPCTagger, CloudFrontDistributionTagger, Route53DomainTagger,
     Route53HostedZoneTagger, ApiGatewayV2Tagger, AthenaWorkgroupTagger, AutoscalingGroupsTagger,
-    RdsSnapshotTagger, S3BucketTagger, Ec2InstanceTagger
+    RdsSnapshotTagger, S3BucketTagger, Ec2InstanceTagger, CloudWatchLogGroupTagger
 )
 
 
@@ -17,7 +17,7 @@ class AwsResourceTaggerFactory:
     """
 
     @staticmethod
-    def get_tagger(resource_type, resource_id, tags, region, account_id):
+    def get_tagger(resource_type, resource_id, tags, region, account_id, full_resource_id):
         """
         Retrieves the appropriate AWS resource tagger instance.
 
@@ -77,5 +77,7 @@ class AwsResourceTaggerFactory:
             return S3BucketTagger(resource_id, tags)
         elif resource_type == "virtualMachine":
             return Ec2InstanceTagger(resource_id, tags, region)
+        elif resource_type == "logs#loggroup":
+            return CloudWatchLogGroupTagger(resource_id, tags, region, full_resource_id=full_resource_id)
         else:
             raise ValueError(f"Unsupported resource type: {resource_type}")

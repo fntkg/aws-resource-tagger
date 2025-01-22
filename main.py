@@ -36,19 +36,9 @@ def process_csv(file_path):
 
             # Predefined tags to be applied to resources
             tags = [
+                {"Key": "DataClassification", "Value": "Confidential"}
             ]
-
-            # List of dicts for all resources, but Cloudwatch log groups
-            # [
-            #   {"Key": "AdminEmail", "Value": ""},
-            #   ...
-            # ]
-            #
-            # For Cloudwatch log groups, the tags must be a dict not a list of dicts
-            # {
-            #  "AdminEmail": "",
-            #  ...
-            # }
+            # {"Key": "AdminEmail", "Value": ""} 
 
             try:
                 # Obtain a tagger instance from the factory and apply tags

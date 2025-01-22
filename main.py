@@ -42,7 +42,7 @@ def process_csv(file_path):
 
             try:
                 # Obtain a tagger instance from the factory and apply tags
-                tagger = AwsResourceTaggerFactory.get_tagger(resource_type, resource_id, tags, region, account_id)
+                tagger = AwsResourceTaggerFactory.get_tagger(resource_type, resource_id, tags, region, account_id, full_resource_id)
                 tagger.add_tags()
             except Exception as e:
                 print(f"Error processing resource {resource_id}: {e}")

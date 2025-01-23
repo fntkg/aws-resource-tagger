@@ -72,6 +72,9 @@ To add support for tagging a new AWS resource type, follow these steps:
                raise ValueError(f"Unsupported resource type: {resource_type}")
    ```
 
+## Working with Resource ARNs
+In `utils/id_formatter.py`, there are functions available to work with AWS resource ARNs and adapt them to the required format.
+
 ## How It Works
 1. The program reads a CSV file provided as a command-line argument.
 2. It extracts resource type, resource ID, and region dynamically from the file.

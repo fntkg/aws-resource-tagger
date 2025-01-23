@@ -17,4 +17,6 @@ from .autoscaling_groups_tagger import AutoscalingGroupsTagger
 from .rds_snapshot_tagger import RdsSnapshotTagger
 from .s3_bucket_tagger import S3BucketTagger
 from .ec2_instance_tagger import Ec2InstanceTagger
+from .ecr_tagger import ECRRepositoryTagger
+from .lambda_tagger import LambdaTagger
 from .cloudwatch_loggroup_tagger import CloudWatchLogGroupTagger

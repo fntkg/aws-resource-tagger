@@ -1,4 +1,4 @@
-def adapt_tags(input_tags):
+def adapt_tags(tags):
     """
     Adapt a list of dictionaries to a single dictionary format.
 
@@ -8,7 +8,7 @@ def adapt_tags(input_tags):
     Returns:
         dict: Dictionary with keys and values from the input list.
     """
-    return {tag['Key']: tag['Value'] for tag in input_tags}
+    return {tag['Key']: tag['Value'] for tag in tags}
 
 def adapt_autoscaling_tags(tags, resource_id, resource_type='auto-scaling-group'):
     """
@@ -29,3 +29,15 @@ def adapt_autoscaling_tags(tags, resource_id, resource_type='auto-scaling-group'
         }
         for tag in tags
     ]
+
+def adapt_ecs_tags(tags):
+    """
+    Adapt a list of dictionaries to a single dictionary format for ECS resources.
+
+    Args:
+        input_tags (list): List of dictionaries with 'Key' and 'Value'.
+
+    Returns:
+        dict: Dictionary with keys and values from the input list.
+    """
+    return [{'key': tag['Key'],'value': tag['Value']} for tag in tags]

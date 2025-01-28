@@ -4,7 +4,7 @@ from taggers import (
     NetworkAclTagger, VPCTagger, CloudFrontDistributionTagger, Route53DomainTagger,
     Route53HostedZoneTagger, ApiGatewayV2Tagger, AthenaWorkgroupTagger, AutoscalingGroupsTagger,
     RdsSnapshotTagger, S3BucketTagger, Ec2InstanceTagger, CloudWatchLogGroupTagger, ecr_tagger, lambda_tagger,
-    ECSTagger, CloudWatchAlarmTagger
+    ECSTagger, CloudWatchAlarmTagger, ACMCertificateTagger
 )
 
 
@@ -88,5 +88,7 @@ class AwsResourceTaggerFactory:
             return ECSTagger(resource_arn, tags, region)
         elif resource_type == "metricfilteralarm":
             return CloudWatchAlarmTagger(resource_arn, tags, region)
+        elif resource_type == "acm#certificate":
+            return ACMCertificateTagger(resource_arn, tags, region)
         else:
             raise ValueError(f"Unsupported resource type: {resource_type}")

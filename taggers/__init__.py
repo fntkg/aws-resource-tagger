@@ -21,3 +21,4 @@ from .ecr_tagger import ECRRepositoryTagger
 from .lambda_tagger import LambdaTagger
 from .cloudwatch_loggroup_tagger import CloudWatchLogGroupTagger
 from .ecs_task_tagger import ECSTagger
+from .cloudwatch_alarm_tagger import CloudWatchAlarmTagger

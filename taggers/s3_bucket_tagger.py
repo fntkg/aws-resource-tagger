@@ -1,6 +1,6 @@
 import boto3
 from .base_tagger import AwsResourceTagger
-from utils.csv_utils import get_s3_bucket_name
+from utils.id_formatter import get_s3_bucket_name
 
 # Concrete class for tagging S3 buckets
 class S3BucketTagger(AwsResourceTagger):

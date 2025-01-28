@@ -9,3 +9,6 @@ def extract_resource_name(arn):
         str: The extracted resource name.
     """
     return arn.split('/')[-1]
+
+def get_s3_bucket_name(resource_id):
+    return resource_id.split(':')[-1]

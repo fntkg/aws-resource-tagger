@@ -67,7 +67,7 @@ Once created, simply register your parser or tagger with the tool, and it will b
 from .base import BaseParser
 from .registry import ParserRegistry
 
-@register_parser('custom') # Register the parser with the tool
+@ParserRegistry.register_parser('custom') # Register the parser with the tool
 class CustomParser(Parser):
     @staticmethod
     def parse(input_file: str) -> list:

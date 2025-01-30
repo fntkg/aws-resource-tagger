@@ -67,15 +67,12 @@ Once created, simply register your parser or tagger with the tool, and it will b
 from .base import BaseParser
 from .registry import ParserRegistry
 
-@register_parser('custom')
+@register_parser('custom') # Register the parser with the tool
 class CustomParser(Parser):
     @staticmethod
     def parse(input_file: str) -> list:
-        resources = []
-        with open(input_file, 'r') as file:
-            for line in file:
-                arn = line.strip().split(',') # Custom parsing logic
-                resources.append(arn)
+        resources = [] # List of resources (ARNs)
+        # Your logic to read the input file and extract resources
         return resources
 ```
 

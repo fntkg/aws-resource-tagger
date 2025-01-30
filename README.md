@@ -68,7 +68,7 @@ from .base import BaseParser
 from .registry import ParserRegistry
 
 @ParserRegistry.register('custom') # Register the parser with the tool
-class CustomParser(Parser):
+class CustomParser(BaseParser):
     @staticmethod
     def parse(input_file: str) -> list:
         resources = [] # List of resources (ARNs)

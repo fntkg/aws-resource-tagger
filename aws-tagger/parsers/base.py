@@ -21,15 +21,13 @@ class BaseParser(ABC):
 
         This method must be implemented by subclasses to define the specific logic for
         reading and processing a file. The extracted data should be returned in a standardized
-        format (e.g., a list of AWS resource ARNs or other relevant items).
+        format (A list of AWS resource ARNs).
 
         Args:
             file_path (str): The path to the file that needs to be parsed.
 
         Returns:
-            list: A list of extracted elements from the file. The structure of the returned
-                  data depends on the concrete implementation.
-
+            list: A list of AWS Resource ARNs extracted from the input file.
         Raises:
             NotImplementedError: If the method is not implemented in a subclass.
         """

@@ -76,6 +76,21 @@ class CustomParser(Parser):
         return resources
 ```
 
+**Example**: Creating a custom tager for a new AWS service:
+
+```python
+import boto3
+from .base import AwsResourceTagger
+from .registry import TaggerRegistry
+from arn_parser.arn_parser import AWSArnParser
+
+@TaggerRegistry.register("yourservice") # Register the tagger with the tool. This is the service name.
+class YourServiceTagger(AwsResourceTagger):
+    @staticmethod
+    def tag_resource(arn: str, tags: list):
+        # Your logic to tag the resource
+```
+
 ### Example Command
 
 Here’s how you can tag AWS resources using a CSV file and a custom set of tags:

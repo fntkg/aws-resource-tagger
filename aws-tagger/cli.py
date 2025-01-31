@@ -1,6 +1,7 @@
 from parsers.registry import ParserRegistry
 import parsers
 import taggers
+from tqdm import tqdm
 import json
 from taggers.registry import TaggerRegistry
 from arn_parser.arn_parser import AWSArnParser
@@ -36,7 +37,7 @@ def tag_resources(input_file: str, tags_file: str, parser_type: str):
     # Extract AWS resource ARNs from the input file
     resources = parser.parse(input_file)
 
-    for arn in resources:
+    for arn in tqdm(resources):
         # Determine the AWS service from the ARN
         service = AWSArnParser.get_service(arn)
 

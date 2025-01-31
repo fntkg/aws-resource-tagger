@@ -10,9 +10,8 @@ class S3Tagger(AwsResourceTagger):
     def tag_resource(arn: str, tags: list):
         region = AWSArnParser.get_region(arn)
         resource_id = AWSArnParser.get_resource_id(arn)
-        print(f"Tagging S3 bucket: {arn}")
         s3 = boto3.client('s3', region_name=region)
         try:
             s3.put_bucket_tagging(Bucket=resource_id, Tagging={'TagSet': tags})
         except Exception as e:
-            print(f"Error tagging S3 bucket {arn}: {e}")
+            print(f"Error tagging {arn}: {e}")

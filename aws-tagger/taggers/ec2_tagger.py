@@ -8,11 +8,10 @@ from arn_parser.arn_parser import AWSArnParser
 class EC2Tagger(AwsResourceTagger):
     @staticmethod
     def tag_resource(arn: str, tags: list):
-        print(f"Tagging EC2: {arn}")
         region = AWSArnParser.get_region(arn)
         resource_id = AWSArnParser.get_resource_id(arn)
         ec2 = boto3.client('ec2', region_name=region)
         try:
             ec2.create_tags(Resources=[resource_id], Tags=tags)
         except Exception as e:
-            print(f"Error tagging EC2 Instance {arn}: {e}")
+            print(f"Error tagging {arn}: {e}")

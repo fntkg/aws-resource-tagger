@@ -9,11 +9,10 @@ from arn_parser.arn_parser import AWSArnParser
 class ECSTagger(AwsResourceTagger):
     @staticmethod
     def tag_resource(arn: str, tags: list):
-        print(f"Tagging ECS Resource: {arn}")
         formated_tags = adapt_ecs_tags(tags)
         region = AWSArnParser.get_region(arn)
         task = boto3.client('ecs', region_name=region)
         try:
             task.tag_resource(resourceArn=arn, tags=formated_tags)
         except Exception as e:
-            print(f"Error tagging ECS Resource {arn}: {e}")
+            print(f"Error tagging {arn}: {e}")

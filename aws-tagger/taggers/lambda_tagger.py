@@ -9,11 +9,10 @@ from arn_parser.arn_parser import AWSArnParser
 class LambdaTagger(AwsResourceTagger):
     @staticmethod
     def tag_resource(arn: str, tags: list):
-        print(f"Tagging Lambda: {arn}")
         formated_tags = adapt_tags(tags)
         region = AWSArnParser.get_region(arn)
         function = boto3.client('lambda', region_name=region)
         try:
             function.tag_resource(Resource=arn, Tags=formated_tags)
         except Exception as e:
-            print(f"Error tagging Lambda function {arn}: {e}")
+            print(f"Error tagging {arn}: {e}")

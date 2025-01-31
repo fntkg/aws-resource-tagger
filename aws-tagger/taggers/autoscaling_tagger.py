@@ -9,7 +9,6 @@ from arn_parser.arn_parser import AWSArnParser
 class AutoscalingTagger(AwsResourceTagger):
     @staticmethod
     def tag_resource(arn: str, tags: list):
-        print(f"Tagging Autoscaling: {arn}")
 
         region = AWSArnParser.get_region(arn)
         resource_id = AWSArnParser.get_resource_id(arn)
@@ -21,4 +20,4 @@ class AutoscalingTagger(AwsResourceTagger):
         try:
             autoscaling.create_or_update_tags(Tags=formated_tags)
         except Exception as e:
-            print(f"Error tagging Autoscaling Group {arn}: {e}")
+            print(f"Error tagging {arn}: {e}")

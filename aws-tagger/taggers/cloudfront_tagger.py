@@ -8,11 +8,10 @@ from arn_parser.arn_parser import AWSArnParser
 class CloudfrontTagger(AwsResourceTagger):
     @staticmethod
     def tag_resource(arn: str, tags: list):
-        print(f"Tagging CloudFront: {arn}")
         formated_tags = {"Items": tags}
         region = AWSArnParser.get_region(arn)
         cloudfront = boto3.client('cloudfront', region_name=region)
         try:
             cloudfront.tag_resource(Resource=f'{arn}', Tags=formated_tags)
         except Exception as e:
-            print(f"Error tagging CloudFront Distribution {arn}: {e}")
+            print(f"Error tagging {arn}: {e}")

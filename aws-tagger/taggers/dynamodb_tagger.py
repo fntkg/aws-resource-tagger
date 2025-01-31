@@ -9,10 +9,9 @@ from arn_parser.arn_parser import AWSArnParser
 class DynamoDBTagger(AwsResourceTagger):
     @staticmethod
     def tag_resource(arn: str, tags: list):
-        print(f"Tagging Dynamo: {arn}")
         region = AWSArnParser.get_region(arn)
         dynamo = boto3.client('dynamodb', region_name=region)
         try:
             dynamo.tag_resource(ResourceArn=arn, Tags=tags)
         except Exception as e:
-            print(f"Error tagging Dynamo {arn}: {e}")
+            print(f"Error tagging {arn}: {e}")

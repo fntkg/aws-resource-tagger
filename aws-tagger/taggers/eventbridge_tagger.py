@@ -9,10 +9,9 @@ from arn_parser.arn_parser import AWSArnParser
 class EventBridgeTagger(AwsResourceTagger):
     @staticmethod
     def tag_resource(arn: str, tags: list):
-        print(f"Tagging EventBridge: {arn}")
         region = AWSArnParser.get_region(arn)
         function = boto3.client('events', region_name=region)
         try:
             function.tag_resource(ResourceARN=arn, Tags=tags)
         except Exception as e:
-            print(f"Error tagging EventBridge {arn}: {e}")
+            print(f"Error tagging {arn}: {e}")

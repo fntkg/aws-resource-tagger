@@ -8,7 +8,6 @@ from arn_parser.arn_parser import AWSArnParser
 class AthenaTagger(AwsResourceTagger):
     @staticmethod
     def tag_resource(arn: str, tags: list):
-        print(f"Tagging Athenas: {arn}")
         region = AWSArnParser.get_region(arn)
         athena = boto3.client('athena', region_name=region)
         try:
@@ -17,4 +16,4 @@ class AthenaTagger(AwsResourceTagger):
                 Tags=tags
             )
         except Exception as e:
-            print(f"Error tagging Athena {arn}: {e}")
+            print(f"Error tagging {arn}: {e}")

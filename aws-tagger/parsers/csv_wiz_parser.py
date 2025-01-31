@@ -1,4 +1,6 @@
 import csv
+
+from arn_parser.arn_parser import AWSArnParser
 from .base import BaseParser
 from .registry import ParserRegistry
 
@@ -43,5 +45,23 @@ class CSVWizParser(BaseParser):
                 if not resource_arn_column:
                     raise KeyError("No column ending with 'providerUniqueId' found in the CSV file.")
                 resource_arn = row[resource_arn_column]
+                resource_arn = CSVWizParser.__fix_arn(resource_arn)
                 resources.append(resource_arn)
         return resources
+
+    @staticmethod
+    def __fix_arn(arn: str) -> str:
+        """
+        Parses and corrects the ARN.
+
+        Args:
+            arn (str): The original ARN string.
+
+        Returns:
+            str: The corrected ARN string.
+        """
+
+        if AWSArnParser.get_service(arn) == 'workspaces' and AWSArnParser.get_resource_type(arn) == 'ses':
+            arn = arn.replace('ses', 'identity')
+            arn = arn.replace('workspaces', 'ses')
+        return arn

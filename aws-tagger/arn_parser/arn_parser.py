@@ -1,5 +1,7 @@
 import re
 
+import boto3
+
 
 class AWSArnParser:
     """
@@ -123,25 +125,3 @@ class AWSArnParser:
         elif ":" in resource:
             return resource.split(":")[1]
         return resource
-
-    @staticmethod
-    def fix_arn(arn: str) -> str:
-        """
-        Parses and corrects the ARN when it represents an AWS email-related resource.
-
-        Some tools generate ARNs incorrectly, particularly for AWS Workspaces SES resources.
-        This method corrects such cases by making the following modifications:
-
-        - If the service is identified as 'workspaces' and the resource type as 'ses',
-          it replaces 'ses' with 'identity' and swaps 'workspaces' with 'ses'.
-
-        Args:
-            arn (str): The original ARN string.
-
-        Returns:
-            str: The corrected ARN string.
-        """
-        if AWSArnParser.get_service(arn) == 'workspaces' and AWSArnParser.get_resource_type(arn) == 'ses':
-            arn = arn.replace('ses', 'identity')
-            arn = arn.replace('workspaces', 'ses')
-        return arn

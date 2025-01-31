@@ -26,7 +26,7 @@ To tag AWS resources, you need to pass a list of resources and tags to the scrip
 **Example**: Tagging resources from a CSV file:
 
 ```bash
-python main.py tag resources.csv tags.json --parser csv
+python main.py resources.csv tags.json --parser csv
 ```
 
 Where:
@@ -96,7 +96,7 @@ class YourServiceTagger(AwsResourceTagger):
 Here’s how you can tag AWS resources using a CSV file and a custom set of tags:
 
 ```bash
-python main.py tag resources.csv tags.json --parser csv
+python main.py resources.csv tags.json --parser csv
 ```
 
 - `resources.csv`: A file containing AWS resources (ARNs) to be tagged.

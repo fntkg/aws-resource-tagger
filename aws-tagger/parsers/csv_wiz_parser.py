@@ -42,15 +42,17 @@ class CSVWizParser(BaseParser):
             for row in reader:
                 # Identify required columns using suffix search
                 resource_arn_column = next((col for col in row if col.endswith("providerUniqueId")), None)
+                region_column = next((col for col in row if col.endswith("region")), None)
                 if not resource_arn_column:
                     raise KeyError("No column ending with 'providerUniqueId' found in the CSV file.")
                 resource_arn = row[resource_arn_column]
-                resource_arn = CSVWizParser.__fix_arn(resource_arn)
+                region = row[region_column]
+                resource_arn = CSVWizParser.__fix_arn(resource_arn, region)
                 resources.append(resource_arn)
         return resources
 
     @staticmethod
-    def __fix_arn(arn: str) -> str:
+    def __fix_arn(arn: str, region: str) -> str:
         """
         Parses and corrects the ARN.
 
@@ -60,6 +62,9 @@ class CSVWizParser(BaseParser):
         Returns:
             str: The corrected ARN string.
         """
+        if arn.startswith('key-'):
+            # This is an SSH Key pair
+            arn = f'arn:aws:ec2:{region}:0000:key-pair/{arn}'
 
         if AWSArnParser.get_service(arn) == 'workspaces' and AWSArnParser.get_resource_type(arn) == 'ses':
             arn = arn.replace('ses', 'identity')

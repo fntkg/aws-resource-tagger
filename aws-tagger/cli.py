@@ -37,6 +37,9 @@ def tag_resources(input_file: str, tags_file: str, parser_type: str):
     resources = parser.parse(input_file)
 
     for arn in resources:
+        # Check if the ARN needs a fix (just for email entities, for now)
+        arn = AWSArnParser.fix_arn(arn)
+
         # Determine the AWS service from the ARN
         service = AWSArnParser.get_service(arn)
 

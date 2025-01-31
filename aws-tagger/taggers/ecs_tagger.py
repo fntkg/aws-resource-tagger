@@ -7,6 +7,7 @@ from arn_parser.arn_parser import AWSArnParser
 # Concrete class for tagging ECS Resources
 @TaggerRegistry.register("ecs")
 class ECSTagger(AwsResourceTagger):
+    @staticmethod
     def tag_resource(arn: str, tags: list):
         print(f"Tagging ECS Resource: {arn}")
         formated_tags = adapt_ecs_tags(tags)

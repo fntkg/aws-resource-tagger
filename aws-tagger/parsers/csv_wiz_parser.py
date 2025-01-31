@@ -42,9 +42,11 @@ class CSVWizParser(BaseParser):
             for row in reader:
                 # Identify required columns using suffix search
                 resource_arn_column = next((col for col in row if col.endswith("providerUniqueId")), None)
-                region_column = next((col for col in row if col.endswith("region")), None)
                 if not resource_arn_column:
                     raise KeyError("No column ending with 'providerUniqueId' found in the CSV file.")
+                region_column = next((col for col in row if col.endswith("region")), None)
+                if not region_column:
+                    raise KeyError("No column ending with 'region' found in the CSV file.")
                 resource_arn = row[resource_arn_column]
                 region = row[region_column]
                 resource_arn = CSVWizParser.__fix_arn(resource_arn, region)

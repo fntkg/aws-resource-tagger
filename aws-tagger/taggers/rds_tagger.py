@@ -14,4 +14,4 @@ class RdsTagger(AwsResourceTagger):
         try:
             rds_snapshot.add_tags_to_resource(ResourceName=arn, Tags=tags)
         except Exception as e:
-            print(f"Error tagging RDS Snapshot {tags}: {e}")
+            print(f"Error tagging RDS Snapshot {arn}: {e}")

@@ -1,17 +1,15 @@
 import boto3
 from .base import AwsResourceTagger
 from .registry import TaggerRegistry
-from utils.arn_parser import AWSArnParser
 
 # Concrete class for tagging CloudFront Resources
 @TaggerRegistry.register("cloudfront")
 class CloudfrontTagger(AwsResourceTagger):
-    @staticmethod
-    def tag_resource(arn: str, tags: list):
-        formated_tags = {"Items": tags}
-        region = AWSArnParser.get_region(arn)
-        cloudfront = boto3.client('cloudfront', region_name=region)
+    def __init__(self, region: str):
+        self.cloudfront = boto3.client('cloudfront', region_name=region)
+
+    def tag_resource(self, arn: str, tags: list):
         try:
-            cloudfront.tag_resource(Resource=f'{arn}', Tags=formated_tags)
+            self.cloudfront.tag_resource(Resource=f'{arn}', Tags={"Items": tags})
         except Exception as e:
             print(f"Error tagging {arn}: {e}")

@@ -6,12 +6,11 @@ from utils.arn_parser import AWSArnParser
 # Concrete class for tagging EC2 Resources
 @TaggerRegistry.register("ec2")
 class EC2Tagger(AwsResourceTagger):
-    @staticmethod
-    def tag_resource(arn: str, tags: list):
-        region = AWSArnParser.get_region(arn)
-        resource_id = AWSArnParser.get_resource_id(arn)
-        ec2 = boto3.client('ec2', region_name=region)
+    def __init__(self, region: str):
+        self.ec2 = boto3.client('ec2', region_name=region)
+
+    def tag_resource(self, arn: str, tags: list):
         try:
-            ec2.create_tags(Resources=[resource_id], Tags=tags)
+            self.ec2.create_tags(Resources=[AWSArnParser.get_resource_id(arn)], Tags=tags)
         except Exception as e:
             print(f"Error tagging {arn}: {e}")

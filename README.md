@@ -82,14 +82,20 @@ class CustomParser(BaseParser):
 import boto3
 from .base import AwsResourceTagger
 from .registry import TaggerRegistry
-from arn_parser import AWSArnParser
+from utils.arn_parser import AWSArnParser
 
+# Concrete class for tagging EC2 Resources
+@TaggerRegistry.register("ec2")
+class EC2Tagger(AwsResourceTagger):
+    def __init__(self, region: str):
+        self.ec2 = boto3.client('ec2', region_name=region)
 
-@TaggerRegistry.register("yourservice")  # Register the tagger with the tool. This is the service name.
-class YourServiceTagger(AwsResourceTagger):
-    @staticmethod
-    def tag_resource(arn: str, tags: list):
-# Your logic to tag the resource
+    def tag_resource(self, arn: str, tags: list):
+        try:
+            self.ec2.create_tags(Resources=[AWSArnParser.get_resource_id(arn)], Tags=tags)
+        except Exception as e:
+            print(f"Error tagging {arn}: {e}")
+
 ```
 
 ### Example Command

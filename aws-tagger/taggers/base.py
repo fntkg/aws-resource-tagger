@@ -8,7 +8,7 @@ class AwsResourceTagger(ABC):
 
     @staticmethod
     @abstractmethod
-    def tag_resource(arn: str, tags: list):
+    def tag_resource(arn: str, tags: list) -> None:
         """
         Abstract method to add tags_file to a resource.
 

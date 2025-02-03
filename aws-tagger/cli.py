@@ -36,11 +36,12 @@ def tag_resources(input_file: str, tags_file: str, parser_type: str):
     resources = parser.parse(input_file)
 
     for arn in tqdm(resources):
-        # Determine the AWS service from the ARN
+        # Determine the AWS service and region from the ARN
         service = AWSArnParser.get_service(arn)
+        region = AWSArnParser.get_region(arn)
 
         # Retrieve the appropriate tagger for the AWS service
-        tagger = TaggerRegistry.get_tagger(service)
+        tagger = TaggerRegistry.get_tagger(service, region)
 
         # Apply the predefined tags to the resource
         tagger.tag_resource(arn, tags)

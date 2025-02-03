@@ -6,12 +6,11 @@ from utils.arn_parser import AWSArnParser
 # Concrete class for tagging S3 resources
 @TaggerRegistry.register("s3")
 class S3Tagger(AwsResourceTagger):
-    @staticmethod
-    def tag_resource(arn: str, tags: list):
-        region = AWSArnParser.get_region(arn)
-        resource_id = AWSArnParser.get_resource_id(arn)
-        s3 = boto3.client('s3', region_name=region)
+    def __init__(self, region: str):
+        self.s3 = boto3.client('s3', region_name=region)
+
+    def tag_resource(self, arn: str, tags: list):
         try:
-            s3.put_bucket_tagging(Bucket=resource_id, Tagging={'TagSet': tags})
+            self.s3.put_bucket_tagging(Bucket=AWSArnParser.get_resource_id(arn), Tagging={'TagSet': tags})
         except Exception as e:
             print(f"Error tagging {arn}: {e}")

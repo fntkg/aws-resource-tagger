@@ -2,17 +2,15 @@ import boto3
 from .base import AwsResourceTagger
 from utils.tag_formatter import adapt_ecs_tags
 from .registry import TaggerRegistry
-from utils.arn_parser import AWSArnParser
 
 # Concrete class for tagging ECS Resources
 @TaggerRegistry.register("ecs")
 class ECSTagger(AwsResourceTagger):
-    @staticmethod
-    def tag_resource(arn: str, tags: list):
-        formated_tags = adapt_ecs_tags(tags)
-        region = AWSArnParser.get_region(arn)
-        task = boto3.client('ecs', region_name=region)
+    def __init__(self, region: str):
+        self.ecs = boto3.client('ecs', region_name=region)
+
+    def tag_resource(self, arn: str, tags: list):
         try:
-            task.tag_resource(resourceArn=arn, tags=formated_tags)
+            self.ecs.tag_resource(resourceArn=arn, tags=adapt_ecs_tags(tags))
         except Exception as e:
             print(f"Error tagging {arn}: {e}")

@@ -6,10 +6,11 @@ from utils.arn_parser import AWSArnParser
 # Concrete class for tagging SES Resources
 @TaggerRegistry.register("ses")
 class WorkspacesTagger(AwsResourceTagger):
-    @staticmethod
-    def tag_resource(arn: str, tags: list):
-        ses = boto3.client('sesv2', region_name=AWSArnParser.get_region(arn))
+    def __init__(self, region: str):
+        self.sesv2 = boto3.client('sesv2', region_name=region)
+
+    def tag_resource(self, arn: str, tags: list):
         try:
-            ses.tag_resource(ResourceArn=arn, Tags=tags)
+            self.sesv2.tag_resource(ResourceArn=arn, Tags=tags)
         except Exception as e:
             print(f"Error tagging {arn}: {e}")

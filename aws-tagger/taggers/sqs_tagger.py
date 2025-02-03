@@ -1,18 +1,16 @@
 import boto3
 from .base import AwsResourceTagger
 from .registry import TaggerRegistry
-from utils.arn_parser import AWSArnParser
 from utils.tag_formatter import adapt_tags
 
 # Concrete class for tagging SQS Queues\
 @TaggerRegistry.register("sqs")
 class SQSTagger(AwsResourceTagger):
-    @staticmethod
-    def tag_resource(arn: str, tags: list):
-        region = AWSArnParser.get_region(arn)
-        formated_tags = adapt_tags(tags)
-        sqs = boto3.client('sqs', region_name=region)
+    def __init__(self, region: str):
+        self.sqs = boto3.client('sqs', region_name=region)
+
+    def tag_resource(self, arn: str, tags: list):
         try:
-            sqs.tag_queue(QueueUrl=arn, Tags=formated_tags)
+            self.sqs.tag_queue(QueueUrl=arn, Tags=adapt_tags(tags))
         except Exception as e:
             print(f"Error tagging {arn}: {e}")

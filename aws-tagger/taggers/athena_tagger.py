@@ -1,17 +1,16 @@
 import boto3
 from .base import AwsResourceTagger
 from .registry import TaggerRegistry
-from utils.arn_parser import AWSArnParser
 
 # Concrete class for tagging Athena Resources
 @TaggerRegistry.register("athena")
 class AthenaTagger(AwsResourceTagger):
-    @staticmethod
-    def tag_resource(arn: str, tags: list):
-        region = AWSArnParser.get_region(arn)
-        athena = boto3.client('athena', region_name=region)
+    def __init__(self, region: str):
+        self.athena = boto3.client('athena', region_name=region)
+
+    def tag_resource(self, arn: str, tags: list):
         try:
-            athena.tag_resource(
+            self.athena.tag_resource(
                 ResourceARN=arn,
                 Tags=tags
             )

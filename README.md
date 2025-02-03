@@ -8,6 +8,7 @@ This tool allows you to easily tag any AWS resource in your account. It simplifi
 - **Support for Multiple Input Formats**: Handle different input formats, such as CSV files, ARNs, and others, by using custom parsers.
 - **Extendable**: Add your own parsers and taggers with minimal effort.
 - **Automated Resource Identification**: The tool automatically identifies the AWS service, region, account ID, and resource name from ARNs.
+- **Tagger instances caching**: The tool caches tagger instances to avoid creating multiple instances for the same service.
 
 ## Installation
 

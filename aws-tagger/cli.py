@@ -2,7 +2,7 @@ from parsers.registry import ParserRegistry
 from tqdm import tqdm
 import json
 from taggers.registry import TaggerRegistry
-from arn_parser import AWSArnParser
+from utils.arn_parser import AWSArnParser
 
 
 def tag_resources(input_file: str, tags_file: str, parser_type: str):

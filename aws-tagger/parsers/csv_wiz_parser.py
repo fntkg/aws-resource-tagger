@@ -1,6 +1,6 @@
 import csv
 
-from arn_parser.arn_parser import AWSArnParser
+from arn_parser import AWSArnParser
 from .base import BaseParser
 from .registry import ParserRegistry
 

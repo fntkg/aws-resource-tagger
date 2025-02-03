@@ -2,7 +2,7 @@ import boto3
 from .base import AwsResourceTagger
 from utils.tag_formatter import adapt_tags
 from .registry import TaggerRegistry
-from arn_parser.arn_parser import AWSArnParser
+from utils.arn_parser import AWSArnParser
 
 # Concrete class for tagging CloudWatch resources
 @TaggerRegistry.register("logs")

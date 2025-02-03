@@ -82,13 +82,14 @@ class CustomParser(BaseParser):
 import boto3
 from .base import AwsResourceTagger
 from .registry import TaggerRegistry
-from arn_parser.arn_parser import AWSArnParser
+from arn_parser import AWSArnParser
 
-@TaggerRegistry.register("yourservice") # Register the tagger with the tool. This is the service name.
+
+@TaggerRegistry.register("yourservice")  # Register the tagger with the tool. This is the service name.
 class YourServiceTagger(AwsResourceTagger):
     @staticmethod
     def tag_resource(arn: str, tags: list):
-        # Your logic to tag the resource
+# Your logic to tag the resource
 ```
 
 ### Example Command

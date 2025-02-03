@@ -1,7 +1,7 @@
 import boto3
 from .base import AwsResourceTagger
 from .registry import TaggerRegistry
-from arn_parser.arn_parser import AWSArnParser
+from utils.arn_parser import AWSArnParser
 
 # Concrete class for tagging Route53 domains
 @TaggerRegistry.register("route53domains")

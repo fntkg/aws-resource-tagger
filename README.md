@@ -127,7 +127,6 @@ We encourage contributions to this project! If you have ideas for new parsers, t
 This project employs several design patterns to ensure flexibility, extensibility, and maintainability:
 
 - **Factory Pattern**: Used for the dynamic creation of parsers and taggers based on user input. This allows the system to easily accommodate new types of parsers and taggers without changing the core logic.
-- **Decorator Pattern**: Applied to register parsers and taggers, simplifying the extension of functionality with minimal boilerplate code.
 - **Strategy Pattern**: Defines different parsing and tagging strategies (such as tagging EC2, S3, etc.), which can be easily switched and customized based on the resource type.
 - **Singleton Pattern**: Ensures only one instance of each parser and tagger registries exists, preventing duplication and ensuring consistent behavior across the system.
 

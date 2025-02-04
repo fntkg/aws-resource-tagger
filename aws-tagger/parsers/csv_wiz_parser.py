@@ -47,14 +47,20 @@ class CSVWizParser(BaseParser):
                 region_column = next((col for col in row if col.endswith("region")), None)
                 if not region_column:
                     raise KeyError("No column ending with 'region' found in the CSV file.")
+                resource_type_column = next((col for col in row if col.endswith("nativeType")), None)
+                if not resource_type_column:
+                    raise KeyError("No column ending with 'nativeType' found in the CSV file.")
+                resource_type = row[resource_type_column]
                 resource_arn = row[resource_arn_column]
                 region = row[region_column]
-                resource_arn = CSVWizParser.__fix_arn(resource_arn, region)
+                # Fix the ARN if necessary
+                resource_arn = CSVWizParser.__fix_arn(resource_arn, region, resource_type)
+                # Append the corrected ARN to the list of resources
                 resources.append(resource_arn)
         return resources
 
     @staticmethod
-    def __fix_arn(arn: str, region: str) -> str:
+    def __fix_arn(arn: str, region: str, resource_type: str) -> str:
         """
         Parses and corrects the ARN.
 
@@ -64,15 +70,22 @@ class CSVWizParser(BaseParser):
         Returns:
             str: The corrected ARN string.
         """
+        if resource_type == 'repository':
+            # This is an ECR Repository
+            return f'arn:aws:ecr:{region}:0000:repository/{arn}'
+
         if arn.startswith('key-'):
             # This is an SSH Key pair
-            arn = f'arn:aws:ec2:{region}:0000:key-pair/{arn}'
+            return f'arn:aws:ec2:{region}:0000:key-pair/{arn}'
 
         if arn.startswith('rtb-'):
             # This is a Route Table
-            arn = f'arn:aws:ec2:{region}:0000:route-table/{arn}'
+            return f'arn:aws:ec2:{region}:0000:route-table/{arn}'
 
         if AWSArnParser.get_service(arn) == 'workspaces' and AWSArnParser.get_resource_type(arn) == 'ses':
+            # This is a SES Email Identity
             arn = arn.replace('ses', 'identity')
             arn = arn.replace('workspaces', 'ses')
+            return arn
+
         return arn

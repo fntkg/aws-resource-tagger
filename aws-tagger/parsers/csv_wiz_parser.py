@@ -44,23 +44,37 @@ class CSVWizParser(BaseParser):
                 resource_arn_column = next((col for col in row if col.endswith("providerUniqueId")), None)
                 if not resource_arn_column:
                     raise KeyError("No column ending with 'providerUniqueId' found in the CSV file.")
+                resource_arn = row[resource_arn_column]
+
                 region_column = next((col for col in row if col.endswith("region")), None)
                 if not region_column:
                     raise KeyError("No column ending with 'region' found in the CSV file.")
+                region = row[region_column]
+
                 resource_type_column = next((col for col in row if col.endswith("nativeType")), None)
                 if not resource_type_column:
                     raise KeyError("No column ending with 'nativeType' found in the CSV file.")
                 resource_type = row[resource_type_column]
-                resource_arn = row[resource_arn_column]
-                region = row[region_column]
+
+                name_column = next((col for col in row if col.endswith("Name")), None)
+                if not name_column:
+                    raise KeyError("No column ending with 'Name' found in the CSV file.")
+                name = row[name_column]
+
+                account_id_column = next((col for col in row if col.endswith("subscriptionExternalId")), None)
+                if not account_id_column:
+                    raise KeyError("No column ending with 'subscriptionExternalId' found i the CSV file.")
+                account_id = row[account_id_column]
+
+
                 # Fix the ARN if necessary
-                resource_arn = CSVWizParser.__fix_arn(resource_arn, region, resource_type)
+                resource_arn = CSVWizParser.__fix_arn(resource_arn, region, resource_type, name, account_id)
                 # Append the corrected ARN to the list of resources
                 resources.append(resource_arn)
         return resources
 
     @staticmethod
-    def __fix_arn(arn: str, region: str, resource_type: str) -> str:
+    def __fix_arn(arn: str, region: str, resource_type: str, name: str, account_id: str) -> str:
         """
         Parses and corrects the ARN.
 
@@ -72,15 +86,16 @@ class CSVWizParser(BaseParser):
         """
         if resource_type == 'repository':
             # This is an ECR Repository
-            return f'arn:aws:ecr:{region}:0000:repository/{arn}'
+            return f'arn:aws:ecr:{region}:{account_id}:repository/{name}'
 
         if arn.startswith('key-'):
+            # FIXME Review if this is correct
             # This is an SSH Key pair
-            return f'arn:aws:ec2:{region}:0000:key-pair/{arn}'
+            return f'arn:aws:ec2:{region}:{account_id}:key-pair/{arn}'
 
         if arn.startswith('rtb-'):
             # This is a Route Table
-            return f'arn:aws:ec2:{region}:0000:route-table/{arn}'
+            return f'arn:aws:ec2:{region}:{account_id}:route-table/{arn}'
 
         if AWSArnParser.get_service(arn) == 'workspaces' and AWSArnParser.get_resource_type(arn) == 'ses':
             # This is a SES Email Identity

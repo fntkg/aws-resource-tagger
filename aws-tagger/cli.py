@@ -27,7 +27,7 @@ def tag_resources(input_file: str, tags_file: str, parser_type: str):
         with open(tags_file, "r") as f:
             tags = json.load(f)
     except Exception as e:
-        print(f"Error reading tags_file file: {e}")
+        print(f"Error reading tags file: {e}")
         return
     # Get the parser instance based on the parser type
     parser = ParserRegistry.get_parser(parser_type)

@@ -2,6 +2,7 @@ import boto3
 from .base import AwsResourceTagger
 from .registry import TaggerRegistry
 
+
 # Concrete class for tagging ECR resources
 @TaggerRegistry.register("ecr")
 class ECRTagger(AwsResourceTagger):

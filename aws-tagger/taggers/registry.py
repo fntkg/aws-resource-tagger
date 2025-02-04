@@ -49,7 +49,6 @@ class TaggerRegistry:
 
         # Check if an instance for this resource type and region already exists
         if key in cls._instances:
-            print('Returning cached instance')
             return cls._instances[key]
 
         # Retrieve the corresponding tagger class

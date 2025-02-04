@@ -68,6 +68,10 @@ class CSVWizParser(BaseParser):
             # This is an SSH Key pair
             arn = f'arn:aws:ec2:{region}:0000:key-pair/{arn}'
 
+        if arn.startswith('rtb-'):
+            # This is a Route Table
+            arn = f'arn:aws:ec2:{region}:0000:route-table/{arn}'
+
         if AWSArnParser.get_service(arn) == 'workspaces' and AWSArnParser.get_resource_type(arn) == 'ses':
             arn = arn.replace('ses', 'identity')
             arn = arn.replace('workspaces', 'ses')

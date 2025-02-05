@@ -4,6 +4,7 @@ from utils.arn_parser import AWSArnParser
 from .base import BaseParser
 from .registry import ParserRegistry
 
+
 @ParserRegistry.register("wiz")
 class CSVWizParser(BaseParser):
     """
@@ -65,7 +66,6 @@ class CSVWizParser(BaseParser):
                 if not account_id_column:
                     raise KeyError("No column ending with 'subscriptionExternalId' found i the CSV file.")
                 account_id = row[account_id_column]
-
 
                 # Fix the ARN if necessary
                 resource_arn = CSVWizParser.__fix_arn(resource_arn, region, resource_type, name, account_id)

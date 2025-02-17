@@ -138,3 +138,35 @@ This project employs several design patterns to ensure flexibility, extensibilit
 - **Singleton Pattern**: Ensures only one instance of each parser and tagger registries exists, preventing duplication and ensuring consistent behavior across the system.
 
 These patterns work together to keep the project modular, maintainable, and easy to extend for future requirements.
+
+```mermaid
+classDiagram
+    class AwsResourceTagger {
+        <<interface>>
+        +__init__(region: String) : void
+        +tag_resource(arn: String, tags: List) : void
+    }
+
+    class ACMTagger {
+        -acm: boto3.client
+        +__init__(region: String) : void
+        +tag_resource(arn: String, tags: List) : void
+    }
+
+    class MoreTaggers {
+        -tagger: boto3.client
+        +__init__(region: String) : void
+        +tag_resource(arn: String, tags: List) : void
+    }
+
+    class TaggerRegistry {
+        -_taggers: dict
+        -_instances: dict
+        +register(name: String) : callable
+        +get_tagger(resource_type: String, region: String) : AwsResourceTagger
+    }
+
+    AwsResourceTagger <|-- ACMTagger
+    AwsResourceTagger <|-- MoreTaggers
+    TaggerRegistry ..> AwsResourceTagger : "manage instances of"
+```
